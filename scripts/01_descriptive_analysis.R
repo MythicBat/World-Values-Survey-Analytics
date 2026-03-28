@@ -153,3 +153,5 @@ g_conf_heat <- ggplot(conf_means, aes(x = Group, y = Organization, fill = MeanCo
     legend.position = "right"
   )
 ggsave("outputs/figures/q1_confidence_heatmap.png", g_conf_heat, width = 8, height = 6)
+
+cat("Q1 Complete. \n")
