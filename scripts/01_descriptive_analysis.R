@@ -41,15 +41,63 @@ colnames(year_counts) <- c("Year", "Count")
 write.csv(year_counts, "outputs/tables/q1_year_count.csv", row.names = FALSE)
 
 # Summary for confidence variables
+safe_summary <- function(x) {
+    if (all(is.na(x))) {
+        return(c(Mean = NA, SD = NA, Min = NA, Max = NA, Missing = length(x)))
+    } else {
+       return(c(
+        Mean = mean(x, na.rm = TRUE),
+        SD = sd(x, na.rm = TRUE),
+        Min = min(x, na.rm = TRUE),
+        Max = max(x, na.rm = TRUE),
+        Missing = sum(is.na(x))
+       ))
+    }
+}
+
 conf_summary <- data.frame(
     Variable = confidence_vars,
-    Mean = sapply(VC_clean[confidence_vars], function(x) mean(x, na.rm = TRUE)),
-    SD = sapply(VC_clean[confidence_vars], function(x) sd(x, na.rm = TRUE)),
-    Min = sapply(VC_clean[confidence_vars], function(x) min(x, na.rm = TRUE)),
-    Max = sapply(VC_clean[confidence_vars], function(x) max(x, na.rm = TRUE)),
-    Missing = sapply(VC_clean[confidence_vars], function(x) sum(is.na(x)))
+    t(sapply(VC_clean[confidence_vars], safe_summary))
 )
 write.csv(conf_summary, "outputs/tables/q1_confidence_summary.csv", row.names = FALSE)
 
-names(VC_clean)
-confidence_vars
+# Summary for predictors
+pred_summary <- data.frame(
+    Variable = predictor_vars,
+    t(sapply(VC_clean[predictor_vars], safe_summary))
+)
+write.csv(pred_summary, "outputs/tables/q1_predictor_summary.csv", row.names = FALSE)
+
+# -----------------------------
+# Graph 1: Missing value percentage
+# -----------------------------
+g_missing <- ggplot(missing_df, aes(x = reorder(Variable, MissingPercent), y = MissingPercent)) + 
+  geom_col() + 
+  coord_flip() + 
+  theme_minimal() + 
+  labs(
+    title = "Missing Values by Variable",
+    x = "Variable",
+    y = "Missing Percentage"
+  )
+
+ggsave("outputs/figures/q1_missing_values.png", g_missing, width = 9, height = 8)
+
+# --------------------------
+# Graph 2: Distribution of confidence variables
+# --------------------------
+conf_long <- VC_clean %>%
+  select(all_of(confidence_vars)) %>%
+  pivot_longer(cols = everything(), names_to = "Organization", values_to = "Confidence")
+
+g_conf_hist <- ggplot(conf_long, aes(x = Confidence)) + 
+  geom_histogram(bins = 20) + 
+  facet_wrap(~Organization, scales = "free_y") + 
+  theme_minimal() + 
+  labs(
+    title = "Distribution of Confidence Variables",
+    x = "Confidence Score",
+    y = "Count"
+  )
+
+ggsave("outputs/figures/q1_confidence_distributions.png", g_conf_hist, width = 12, height = 8)

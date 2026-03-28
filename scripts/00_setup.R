@@ -32,42 +32,19 @@ VC$Group <- as.factor(VC$Group)
 confidence_vars <- c(
     "CChurches",
     "CArmedForces",
-    "CUnions",
+    "CPolice",
     "CParliament",
-    "CPolParties",
+    "CTelevision",
     "CWomensMvt",
     "CCourts",
     "CEU"
 )
 
-predictor_vars <- c(
-    "ILFam",
-    "ILFriends",
-    "ILWork",
-    "ILReligion",
-    "ICQIndependence",
-    "ICQResponsibility",
-    "ICQImagination",
-    "ICQFaith",
-    "ACTReligion",
-    "ACTSport",
-    "ACTUnions",
-    "ACTPolParty",
-    "ACTEnvOrg",
-    "ACTProfessional",
-    "Trusted",
-    "LifeSatis",
-    "FutureWork",
-    "PolBoycott",
-    "IncomeEquality",
-    "PrivateState",
-    "GovtRespons",
-    "Competition",
-    "PolExperts",
-    "PolDemoc",
-    "Age"
+predictor_vars <- setdiff(
+    names(VC_clean),
+    c("Wave", "Country", "Year", "Group", confidence_vars)
 )
-
+setdiff(predictor_vars, names(VC_clean))
 # Clean coded missing values
 VC_clean <- VC
 
