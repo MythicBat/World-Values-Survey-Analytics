@@ -71,33 +71,85 @@ write.csv(pred_summary, "outputs/tables/q1_predictor_summary.csv", row.names = F
 # -----------------------------
 # Graph 1: Missing value percentage
 # -----------------------------
+missing_df <- missing_df %>%
+  arrange(desc(MissingPercent))
+
 g_missing <- ggplot(missing_df, aes(x = reorder(Variable, MissingPercent), y = MissingPercent)) + 
   geom_col() + 
   coord_flip() + 
-  theme_minimal() + 
+  theme_minimal(base_size = 12) + 
   labs(
-    title = "Missing Values by Variable",
+    title = "Missing Data by Variable",
+    subtitle = "Percentage of missing values after recoding survey missing codes to NA",
     x = "Variable",
-    y = "Missing Percentage"
+    y = "Missing (%)"
+  ) + 
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.text.x = element_text(size = 10)
   )
-
-ggsave("outputs/figures/q1_missing_values.png", g_missing, width = 9, height = 8)
+ggsave("outputs/figures/q1_missing_values.png", g_missing, width = 10, height = 8)
 
 # --------------------------
 # Graph 2: Distribution of confidence variables
 # --------------------------
 conf_long <- VC_clean %>%
-  select(all_of(confidence_vars)) %>%
-  pivot_longer(cols = everything(), names_to = "Organization", values_to = "Confidence")
+  select(Group, all_of(confidence_vars)) %>%
+  pivot_longer(cols = all_of(confidence_vars), names_to = "Organization", values_to = "Confidence") %>%
+  filter(!is.na(Confidence))
 
-g_conf_hist <- ggplot(conf_long, aes(x = Confidence)) + 
-  geom_histogram(bins = 20) + 
+conf_prop <- conf_long %>%
+  group_by(Group, Organization, Confidence) %>%
+  summarise(n = n(), .groups = "drop") %>%
+  group_by(Group, Organization) %>%
+  mutate(Proportion = n / sum(n))
+
+g_conf_prop <- ggplot(conf_prop, aes(x = factor(Confidence), y = Proportion, fill = Group)) + 
+  geom_col(position = "dodge") + 
   facet_wrap(~Organization, scales = "free_y") + 
-  theme_minimal() + 
+  theme_minimal(base_size = 12) + 
   labs(
-    title = "Distribution of Confidence Variables",
+    title = "Distribution of Confidence Scores by Organization",
+    subtitle = "Proportion of responses in the Netherlands vs other countries",
     x = "Confidence Score",
-    y = "Count"
+    y = "Proportion"
+  ) + 
+  scale_y_continuous(labels = scales::percent_format()) + 
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 0, hjust = 0.5),
+    strip.text = element_text(face = "bold"),
+    legend.position = "bottom"
   )
 
-ggsave("outputs/figures/q1_confidence_distributions.png", g_conf_hist, width = 12, height = 8)
+ggsave("outputs/figures/q1_confidence_proportions.png", g_conf_prop, width = 12, height = 8)
+
+# -------------------------
+# Graph 3: 
+# -------------------------
+conf_means <- VC_clean %>%
+  group_by(Group) %>%
+  summarise(across(all_of(confidence_vars), ~mean(.x, na.rm = TRUE))) %>%
+  pivot_longer(
+    cols = -Group,
+    names_to = "Organization",
+    values_to = "MeanConfidence"
+  )
+
+g_conf_heat <- ggplot(conf_means, aes(x = Group, y = Organization, fill = MeanConfidence)) +
+  geom_tile() +
+  geom_text(aes(label = round(MeanConfidence, 2)), size = 4) +
+  theme_minimal(base_size = 12) +
+  labs(
+    title = "Average Confidence by Organization and Group",
+    subtitle = "Compact Overview of Netherlands vs other countries",
+    x = "",
+    y = "",
+    fill = "Mean"
+  ) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold"),
+    legend.position = "right"
+  )
+ggsave("outputs/figures/q1_confidence_heatmap.png", g_conf_heat, width = 8, height = 6)
