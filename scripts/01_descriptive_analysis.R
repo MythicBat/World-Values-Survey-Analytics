@@ -54,6 +54,10 @@ safe_summary <- function(x) {
        ))
     }
 }
+all_na_vars <- names(VC_clean)[sapply(VC_clean, function(x) all(is.na(x)))]
+all_na_vars
+predictor_vars <- setdiff(predictor_vars, all_na_vars)
+confidence_vars <- setdiff(confidence_vars, all_na_vars)
 
 conf_summary <- data.frame(
     Variable = confidence_vars,

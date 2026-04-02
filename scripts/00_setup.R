@@ -29,21 +29,16 @@ VC$Group <- ifelse(VC$Country == "NLD", "Netherlands", "OtherCountries")
 VC$Group <- as.factor(VC$Group)
 
 # Defining Variables
-confidence_vars <- grep("^C", names(VC_clean), value = TRUE)
+confidence_vars <- setdiff(grep("^C", names(VC_clean), value = TRUE), "Country")
 
 # Remove all NA Variables
-all_na_vars <- names(VC_clean)[sapply(VC_clean, function(x) all(is.na(x)))]
-all_na_vars
 
-# Remove zero variance variables
-zero_var_vars <- names(VC_clean)[sapply(VC_clean, function(x) length(unique(na.omit(x))) <= 1)]
-zero_var_vars
+
 predictor_vars <- setdiff(
     names(VC_clean),
     c("Wave", "Country", "Year", "Group", confidence_vars)
 )
-predictor_vars <- setdiff(predictor_vars, c(all_na_vars, zero_var_vars))
-confidence_vars <- setdiff(confidence_vars, c(all_na_vars, zero_var_vars))
+
 intersect(predictor_vars, confidence_vars) # Should be empty
 # Clean coded missing values
 VC_clean <- VC
