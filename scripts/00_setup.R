@@ -32,10 +32,10 @@ VC$Group <- as.factor(VC$Group)
 confidence_vars <- c(
     "CChurches",
     "CArmedForces",
-    "CPolice",
+    "CCivilService",
     "CParliament",
-    "CTelevision",
-    "CWomensMvt",
+    "CPolParties",
+    "CEnvProt",
     "CCourts",
     "CEU"
 )

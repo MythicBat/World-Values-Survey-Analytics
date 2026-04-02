@@ -60,7 +60,7 @@ conf_summary <- data.frame(
     t(sapply(VC_clean[confidence_vars], safe_summary))
 )
 write.csv(conf_summary, "outputs/tables/q1_confidence_summary.csv", row.names = FALSE)
-
+names(VC_clean)
 # Summary for predictors
 pred_summary <- data.frame(
     Variable = predictor_vars,
