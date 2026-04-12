@@ -62,15 +62,18 @@ write.csv(nld_top_predictors, "outputs/tables/q2b_nld_top_predictors.csv", row.n
 
 # Plot predictive length
 g_nld_r2 <- ggplot(nld_r2, aes(x = reorder(Organization, Adjusted_R2), y = Adjusted_R2)) +
-  geom_col() +
+  geom_col(fill = "steelblue") +
+  geom_text(aes(label = round(Adjusted_R2, 2)), hjust = -0.2) +
   coord_flip() +
-  theme_minimal() +
+  theme_minimal(base_size = 12) +
   labs(
-    title = "Predictive Strength of Confidence Models in the Netherlands",
-    x = "Organization",
-    y = "Adjusted R-squared"
-  )
-ggsave("outputs/figures/q2b_nld_model_strength.png", g_nld_r2, width = 10, height = 8)
+    title = "Model Performance (Netherlands)",
+    subtitle = "Adjusted R² by Institution",
+    x = "",
+    y = "Adjusted R²"
+  ) +
+  expand_limits(y = max(nld_r2$Adjusted_R2) + 0.05)
+ggsave("outputs/figures/q2b_nld_model_strength.png", g_nld_r2, width = 10, height = 6)
 
 # Plot top predictors for the strongest model
 g_nld_top <- ggplot(nld_top_predictors, aes(x = Predictor, y = Organization, fill = Estimate)) +

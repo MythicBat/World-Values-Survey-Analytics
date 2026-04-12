@@ -90,4 +90,21 @@ g_r2_compare <- ggplot(r2_long, aes(x = Organisation, y = Adjusted_R2, fill = Gr
 
 ggsave("outputs/figures/q2c_r2_comparison.png", g_r2_compare, width = 11, height = 6)
 
+nld_top3 <- nld_top %>%
+  group_by(Organisation) %>%
+  slice_max(order_by = abs(Estimate), n = 3)
+
+g_clean_heat <- ggplot(nld_top3, aes(x = Predictor, y = Organisation, fill = Estimate)) +
+  geom_tile() +
+  geom_text(aes(label = round(Estimate, 2))) +
+  scale_fill_gradient2(low = "red", mid = "white", high = "blue") +
+  theme_minimal(base_size = 12) +
+  labs(
+    title = "Top Predictors of Confidence (Netherlands)",
+    subtitle = "Only strongest effects shown for clarity",
+    x = "",
+    y = ""
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+ggsave("outputs/figures/q2c_top_predictors.png", g_clean_heat, width = 11, height = 6)
 cat("Q2(c) complete.\n")

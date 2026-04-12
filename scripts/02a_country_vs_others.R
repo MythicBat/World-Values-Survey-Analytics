@@ -24,21 +24,19 @@ diff_df <- data.frame(
 diff_df$Difference <- diff_df$NetherlandsMean - diff_df$OtherCountriesMean
 diff_df <- diff_df %>% arrange((Difference))
 
-g_lollipop <- ggplot(diff_df, aes(y = reorder(Organization, Difference))) +
-  geom_segment(aes(x = OtherCountriesMean, xend = NetherlandsMean, yend = reorder(Organization, Difference)), linewidth = 1) +
-  geom_point(aes(x = OtherCountriesMean), size = 3, shape = 16) +
-  geom_point(aes(x = NetherlandsMean), size = 3, shape = 17) +
+g_diff <- ggplot(diff_df, aes(x = reorder(Organization, Difference), y = Difference, fill = Difference > 0)) +
+  geom_col() +
+  coord_flip() +
+  scale_fill_manual(values = c("red", "blue"), guide = FALSE) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
   theme_minimal(base_size = 12) +
   labs(
-    title = "Average Confidence: Netherlands vs Other Countries",
-    subtitle = "Positive gaps indicate higher confidence in the Netherlands",
-    x = "Mean Confidence score",
-    y = "Organization"
-  ) +
-  theme(
-    plot.title = element_text(face = "bold")
+    title = "Confidence Group: Netherlands vs Other Countries",
+    subtitle = "Positive values indicate higher confidence in the Netherlands",
+    x = "",
+    y = "Mean Difference (Netherlands - Other Countries)"
   )
-ggsave("outputs/figures/q2a_confidence_diff_lollipop.png", g_lollipop, width = 10, height = 8)
+ggsave("outputs/figures/q2a_confidence_diff.png", g_diff, width = 10, height = 8)
 
 g_stacked <- ggplot(conf_prop, aes(x = Group, y = Proportion, fill = factor(Confidence))) +
   geom_col() +
