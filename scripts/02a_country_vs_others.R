@@ -24,6 +24,8 @@ diff_df <- data.frame(
 diff_df$Difference <- diff_df$NetherlandsMean - diff_df$OtherCountriesMean
 diff_df <- diff_df %>% arrange((Difference))
 
+diff_df
+
 g_diff <- ggplot(diff_df, aes(x = reorder(Organization, Difference), y = Difference, fill = Difference > 0)) +
   geom_col() +
   coord_flip() +

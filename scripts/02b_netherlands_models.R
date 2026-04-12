@@ -36,6 +36,8 @@ nld_r2 <- data.frame(
 nld_r2 <- nld_r2[order(-nld_r2$Adjusted_R2), ]
 write.csv(nld_r2, "outputs/tables/q2b_nld_model_strength.csv", row.names = FALSE)
 
+nld_r2
+
 # Function to extract strongest predictors
 get_top_predictors <- function(model_list, top_n = 5) {
     out <- data.frame()
@@ -59,6 +61,8 @@ get_top_predictors <- function(model_list, top_n = 5) {
 
 nld_top_predictors <- get_top_predictors(nld_models, top_n = 5)
 write.csv(nld_top_predictors, "outputs/tables/q2b_nld_top_predictors.csv", row.names = FALSE)
+
+nld_top_predictors
 
 # Plot predictive length
 g_nld_r2 <- ggplot(nld_r2, aes(x = reorder(Organization, Adjusted_R2), y = Adjusted_R2)) +

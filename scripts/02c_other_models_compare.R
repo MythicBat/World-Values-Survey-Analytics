@@ -67,6 +67,9 @@ write.csv(r2_compare, "outputs/tables/q2c_r2_comparison.csv", row.names = FALSE)
 nld_top <- get_top_predictors(nld_models, top_n = 5)
 other_top <- get_top_predictors(other_models, top_n = 5)
 
+r2_compare
+nld_top
+
 write.csv(nld_top, "outputs/tables/q2c_nld_top_predictors.csv", row.names = FALSE)
 write.csv(other_top, "outputs/tables/q2c_other_top_predictors.csv", row.names = FALSE)
 

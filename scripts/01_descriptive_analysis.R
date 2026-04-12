@@ -4,6 +4,7 @@ source("scripts/00_setup.R")
 dim_result <- dim(VC_clean)
 str(VC_clean)
 summary(VC_clean)
+dim_result
 
 # Save Dimensions
 dim_df <- data.frame(
