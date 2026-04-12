@@ -53,4 +53,6 @@ wave_diff <- merge(
 )
 write.csv(wave_diff, "outputs/tables/confidence_wave_differences.csv", row.names = FALSE)
 
+head(combine_time)
+
 cat("Q3(a) complete.\n")
