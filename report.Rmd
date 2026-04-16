@@ -11,7 +11,7 @@ output:
     css: style.css
 fontsize: 11pt
 ---
-```{r}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = FALSE,
   warning = FALSE,
@@ -42,7 +42,7 @@ An individual dataset was created from ```WVSExtract.csv``` by sampling 100,000 
 The dataset includes the core fields Wave, Country, and Year, alongside a sampled set of predictor variables and a sampled set of confidence variables.
 
 A key part of the data-generation process was reproducibility. The sampling was performed using a fixed seed linked to the student number so that the same dataset can be recreated if needed.
-```{r}
+```{r code-data, echo=TRUE}
 set.seed(34674896)
 
 VCData <- read.csv("data/raw/WVSExtract.csv")
@@ -74,7 +74,7 @@ The final sampled dataset contains two main types of analytical variables:
 
 Several preprocessing steps were applied before analysis. Survey-specific missing-value codes were recoded to *NA*, variables with no usable variation were excluded where necessary, and regression models were estimated using complete cases. 
 These choices were made to improve model stability and ensure meaningful statistical comparison.
-```{r}
+```{r code-missing, echo=TRUE}
 num_cols <- names(VC)[sapply(VC, is.numeric)]
 VC_clean <- VC
 
@@ -191,7 +191,7 @@ The most important conclusion from Question 3(a) is that time matters. The relat
 
 This question asks how the ability of participant attributes to predict institutional confidence changes over time, whether the important predictors change, and how these time-based patterns compare between the Netherlands and other countries.
 To maintain sufficient complete cases, a reduced predictor set was used for these models. This decision was made to improve model stability and is justified by the smaller sample sizes available once the data are separated by country group and wave.
-```{r}
+```{r code-predictor, echo=TRUE}
 # Reduced predictor set for wave-level modelling
 q3b_predictors <- c(
   "Trusted",
@@ -227,10 +227,10 @@ The time-based analysis adds a further layer of complexity. Both institutional c
 
 Taken together, the results support the assignment’s central claim that predictors of institutional confidence differ across countries and evolve over time. A key limitation is that missing data and reduced wave-specific sample sizes constrain some comparisons, especially in Question 3(b). Even so, the overall evidence is strong enough to support meaningful conclusions about institutional trust in the Netherlands relative to other countries.
 
-Appendix: Key code extracts
+**APPENDIX: KEY CODE EXTRACTS**
 
 *A1: Cross-sectional modelling function*
-```{r}
+```{r appendix-a1, echo=TRUE}
 fit_models <- function(data, confidence_vars, predictor_vars) {
   results <- list()
 
@@ -251,7 +251,7 @@ fit_models <- function(data, confidence_vars, predictor_vars) {
 ```
 
 *A2: Time-based modelling function*
-```{r}
+```{r appendix-a2, echo=TRUE}
 fit_models_by_wave <- function(data, confidence_vars, predictor_vars, min_rows = 20) {
   waves <- sort(unique(na.omit(data$Wave)))
   out <- data.frame()
