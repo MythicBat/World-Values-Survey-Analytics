@@ -1,0 +1,26 @@
+body {
+    font-family: "Arial", sans-serif;
+    line-height: 1.55;
+    max-width: 900px;
+    margin: auto;
+    color: #222;
+}
+
+h1, h2, h3 {
+    color: #111;
+}
+
+h1.title {
+    margin-top: 30px;
+    font-size: 30px;
+}
+
+p.caption {
+    font-size: 0.95em;
+    color: #444;
+    text-align: center;
+}
+
+code, pre {
+    font-size: 0.9em;
+}

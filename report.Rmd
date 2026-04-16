@@ -11,6 +11,7 @@ output:
     css: styles.css
 fontsize: 11pt
 ---
+```{r}
 knitr::opts_chunk$set(
   echo = FALSE,
   warning = FALSE,
@@ -23,7 +24,7 @@ library(knitr)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-
+```
 Introduction
 This report analyses a reduced World Values Survey dataset to investigate how participant attributes predict confidence in social organizations,
 with a specific focus on the Netherlands. The report is organized question by question. Section 1 provides a descriptive overview of the data. Section 2
@@ -55,9 +56,9 @@ Several preprocessing steps were applied before analysis.
 Missing Data Analysis
 A major feature of the dataset is the uneven distribution of missing values across variables. Some variables contain very little missing data, while
 others have relatively substantial missingness.
-
+```{r}
 knitr::include_graphics("outputs/figures/q1_missing_values.png")
-
+```
 Figure 1 shows that some variables, such as CEU and PolScale, exhibit relatively high proportions of missing values, while demographic variables contain
 minimal missingness. The presence of missing data is significant because it can impact both descriptive statistics and predictive modelling. To ensure model
 stability and consistency, missing values were handled by removing incomplete observations during regression analysis.
@@ -65,9 +66,9 @@ stability and consistency, missing values were handled by removing incomplete ob
 Distribution of Confidence Responses
 The confidence variables generally show discrete, bounded response patterns rather than continuous distributions, which is expected for survey-based ordinal scales.
 Responses tend to cluster around moderate values, with relativel fewer observations at the extreme
-
+```{r}
 knitr::include_graphics("outputs/figures/q1_confidence_proportions.png")
-
+```
 Figure 2 indicates that institutional confidence is typically concentrated in the middle of the scale (2 or 3), rather than at the lowest or highest (1 or 4) values.
 This suggests that respondants often express moderate rather than absolute levels of confidence.
 
@@ -77,9 +78,9 @@ Question 2: Focus Country vs all Other Countries as a Group (Independent of time
 This requires comparison of the focus country with all other countries while ignoring time. To address this, all observations were grouped into either Netherlands or OtherCountries,
 and institutional confidence was summarised across the full pooled sample without seperating by wave or year. This provided a broad comparison of average
 confidence levels and response distributions between the two groups.
-
+```{r}
 knitr::include_graphics("outputs/figures/q1_confidence_heatmap.png")
-
+```
 Figure 3 shows that the Netherlands does not differ from other countries in a uniform way. Instead, the size and direction of the difference vary by organization.
 In the current analysis, the Netherlands displays notably higher average confidence in institutions such as:
 - Churches
@@ -88,24 +89,24 @@ In the current analysis, the Netherlands displays notably higher average confide
 - The Women's Movement
 
 While confidence in Police, and Courts is closer to or slightly below the pooled international average
-
+```{r}
 knitr::include_graphics("outputs/figures/q2a_confidence_diff.png")
-
+```
 Figure 4 makes these differences more visible by showing the gap between the two groups for each institution. The largest positive gap appears for churches, followed by 
 several institutional and supernational orgainzations, while police and courts show negative or near-zero gaps.
 
 2(b): How well participant attributes predict confidence in the Netherlands
 To answer this, seperate regression models were fitted for each confidence variable using the selected predictor variables. Model performance was then compared using 
 adjusted R-squared values.
-
+```{r}
 knitr::include_graphics("outputs/figures/q2b_nld_model_strength.png")
-
+```
 Figure 5 shows clear variation in predictive strength across institutions. Confidence in churches is the most predictable outcome in the Netherlands, with a substantially higher 
 adjusted R-squared than the other institutions. Parliament and the European Union also show moderate predictive strength, while armed forces and television are less well 
 explained by the selected predictors. This indicates that the explanatory value of the precitor set depends strongly on the institution being analysed.
-
+```{r}
 knitr::include_graphics("outputs/figures/q2a_predictor_group_heatmap.png")
-
+```
 Figure 6 identifies the strongest model coefficients across Dutch institutional models. A notable pattern is the repeated importance of variables such as general trust, 
 life satisfaction, political attitudes, and selected membership or value variables. At the same time, the strongest predictors are not identical across institutions, which implies 
 that condidence in churches, parliament, courts, and police is shaped by partly different mechanisms.
@@ -116,9 +117,9 @@ participant attitudes and values, while others appear to depend on additional fa
 2(c): Comparison with other countries
 This repeats the modelling exercise for all other countries treated as one pooled group. The same modelling framework was applied to the international group so that the predictive strength 
 and key predictors could be compared directly.
-
+```{r}
 knitr::include_graphics("outputs/figures/q2c_r2_comparison.png")
-
+```
 Figure 7 shows that the relative predictability of institutional confidence differs across groups. In several cases, the Netherlands produces stronger models than the pooled international sample, 
 especially for churches, parliament, the European Union, and the Women's movement. In contrast, other countries outperform the Netherlands for a smaller number of institutions, such as armed forces 
 or television. This suggests that the same predictor does not explain confidence equally well in all other national contexts.
@@ -128,4 +129,74 @@ is consistent with the idea that public confidence is shaped partly by national 
 
 Question 3: Focus Country vs all Other Countries as a Group (over time)
 
-3(a)
+3(a): How Participant responses over time
+This question requires the analysis of time by seperating the data into years or waves and comparing the focus country with other countries. In this report, wave was used rather than individual year 
+because it provided a more stable and interpretable basis for comparison across the survey structure.
+```{r}
+knitr::include_graphics("outputs/figures/confidence_over_time.png")
+```
+Figure 8 shows that institutional confidence does not evolve uniformly across organizations. Some institutions exhibit relatively stable confidence patterns across waves, while others show 
+noticeable increases or decreases. The Netherlands often remains above the pooled international group, but not for every institution and not by the same margin at every point in time. This indicates 
+that the effect of national context persists over time, though its size varies.
+
+The most important conclusion from this question is that time matters. The relationship between national context and institutional trust is not fixed across the survey period. Some institutions remain 
+stably distinct, while others become more similar or more divergent across waves.
+
+3(b): How Predictive ability changes over time
+Question 3(b) asks whether the ability of participant attributes to predict institutional confidence changes over time, whether the important predictors themselves change, and how these time-based patterns 
+compare between Netherlands and other countries. To maintain sufficient complete cases, a reduced predictor set was used here. That decision improves more stability and is justified by the smaller sample 
+sizes available once the data are split by wave and country group.
+```{r}
+knitr::include_graphics("outputs/figures/q3b_predictive_strength_over_time_hd.png")
+```
+Figure 9 shows that model performance is not stable across waves. For some institutions, adjusted R-squared values remain relatively consistent, which suggests that the selected participant attributes explain 
+institutional confidence in a broadly stable way. For other institutions, predictive strength rises or falls more noticeably, implying that the relationship between attitudes and institutional confidence changes
+over time.
+```{r}
+knitr::include_graphics("outputs/figures/q3b_predictive_gap_over_time_hd.png")
+```
+Figure 10 presents the difference in predictive strength between Netherlands and other countries. Positive values indicate stronger models in the Netherlands. This graphic was chosen because it directly 
+addresses the comparative component of the assignment and makes it easier to see whether the Dutch models become relatively stronger or weaker over time. The results show that the gap is not constant. In 
+some waves and for some institutions, the Netherlands is more predictable; in others, the international group is equal or stronger. This demonstrates that model performance is shaped not only by institution 
+and country group, but also by time.
+
+Their relative explanatory value changes across periods, suggesting that social and political context influences how trust in institutions is formed. This is particularly important for institutions linked 
+to politics, governance, or broader social values, where public confidence may be more sensitive to historical events and changing attitudes.
+
+Conclusion
+
+This report analysed a reduced World Values Survey dataset to examine country-level differences in confidence in social organizations and predictors of that confidence, with a focus on the Netherlands.
+The findings show that Netherlands differs from other countries in institution-specific rather than uniform ways. It generally shows higher confidence in several organizations, particularly churches, parliament, 
+the European Union, and the Women's Movement, while showing smaller or negative differences for police and courts.
+
+The modelling results demonstrate that some institutions are more predictable than others. In the Netherlands, confidence in churches is especially well explained by the selected attributes, while confidence in television 
+and the armed forces is less predictable. General trust, life satisfaction, and selected political attitudes emerge as important predictors, but their importance varies across institutions.
+
+The time-based analysis adds a further layer of complexity. Both insitutional confidence and model performance change across waves, and the Dutch pattern does not simply mirror the pooled international 
+pattern. This shows that institutional trust is shaped jointly by individual attitudes, national context, and temporal change.
+
+Taken together, the results support the central claim that predictors of institutional confidence differ across countries and evolve over time. A key limitation is that missing data and reduced wave-specific sample sizes 
+constrain some comparisons. Even so, the overall evidence is strong enough to support meaningful conclusions about institutional trust in Netherlands relative to other countries.
+
+Appendix: 
+```{r}
+    cat(readLines("scripts/00_setup.R"), sep = "\n")
+```
+```{r}
+    cat(readLines("scripts/01_descriptive_analysis.R"), sep = "\n")
+```
+```{r}
+    cat(readLines("scripts/02a_country_vs_others.R"), sep = "\n")
+```
+```{r}
+    cat(readLines("scripts/02b_netherlands_models.R"), sep = "\n")
+```
+```{r}
+    cat(readLines("scripts/02c_other_models_compare.R"), sep = "\n")
+```
+```{r}
+    cat(readLines("scripts/03a_over_time_responses.R"), sep = "\n")
+```
+```{r}
+    cat(readLines("scripts/03b_over_time_models.R"), sep = "\n")
+```

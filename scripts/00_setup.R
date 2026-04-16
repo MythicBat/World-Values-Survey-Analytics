@@ -3,6 +3,7 @@ rm(list = ls())
 # Packages
 install.packages("dplyr")
 install.packages("tidyr")
+install.packages("rmarkdown")
 install.packages("ggplot2")
 install.packages("readr")
 library(dplyr)
