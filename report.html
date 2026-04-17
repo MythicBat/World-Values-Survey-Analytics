@@ -11,7 +11,7 @@
 
 <meta name="author" content="Alin Merchant (34674896)" />
 
-<meta name="date" content="2026-04-16" />
+<meta name="date" content="2026-04-17" />
 
 <title>FIT3152 Assignment 1 Report</title>
 
@@ -1624,19 +1624,19 @@ display: none;
 
 <h1 class="title toc-ignore">FIT3152 Assignment 1 Report</h1>
 <h4 class="author">Alin Merchant (34674896)</h4>
-<h4 class="date">16 April 2026</h4>
+<h4 class="date">17 April 2026</h4>
 
 </div>
 
 
 <p><strong>INTRODUCTION</strong></p>
-<p>This report analyses a reduced World Values Survey dataset to
-investigate how participant attributes predict confidence in social
-organisations, with a specific focus on the Netherlands. The report
-therefore addresses three main tasks: descriptive analysis of the
-dataset, cross-sectional comparison of the Netherlands with all other
-countries as a pooled group, and time-based analysis across survey
-waves.</p>
+<p>Generative AI was used in this assignment. This report analyses a
+reduced World Values Survey dataset to investigate how participant
+attributes predict confidence in social organisations, with a specific
+focus on the Netherlands. The report therefore addresses three main
+tasks: descriptive analysis of the dataset, cross-sectional comparison
+of the Netherlands with all other countries as a pooled group, and
+time-based analysis across survey waves.</p>
 <p>The focus country used throughout this report is the Netherlands
 (NLD). Confidence variables are identified by the prefix C, while the
 remaining selected variables are treated as potential predictors. The
@@ -1735,7 +1735,7 @@ proportions, while variables such as <em>Country</em>, <em>Wave</em>,
 contain little or no missingness. This suggests that the analytical
 difficulty of the dataset is driven more by selected attitudinal
 variables than by basic identifiers.</p>
-<p><strong>Graphic design resoning:</strong> A horizontal missingness
+<p><strong>Graphic design reasoning:</strong> A horizontal missingness
 bar chart was chosen because it allows quick ranking of variables from
 highest to lowest missingness. This makes the data-quality structure of
 the dataset immediately visible and supports later methodological
@@ -1937,7 +1937,7 @@ wave-specific sample sizes constrain some comparisons, especially in
 Question 3(b). Even so, the overall evidence is strong enough to support
 meaningful conclusions about institutional trust in the Netherlands
 relative to other countries.</p>
-<p><strong>APPENDIX: KEY CODE EXTRACTS</strong></p>
+<p><strong>APPENDIX A: KEY CODE EXTRACTS</strong></p>
 <p><em>A1: Cross-sectional modelling function</em></p>
 <pre class="r"><code>fit_models &lt;- function(data, confidence_vars, predictor_vars) {
   results &lt;- list()
@@ -1995,6 +1995,20 @@ relative to other countries.</p>
 
   out
 }</code></pre>
+<p><strong>APPENDIX B: GENERATIVE AI USE</strong></p>
+<p>In this report, ChatGPT was used for debugging R code for any errors
+and warnings, and improving graph design and report structure.</p>
+<p>Examples of the prompts included:</p>
+<ul>
+<li><p>“How can I visualize changes in confidence over time by
+wave?”</p></li>
+<li><p>“How should I structure this assignment report in R
+Markdown?”</p></li>
+</ul>
+<p>The generated outputs were used only as guidance for coding and
+presentation. All generated suggestions were reviewed, and tested before
+use. The final dataset creation, cleaning, modelling, figures, and
+conclusions were done by me.</p>
 
 
 

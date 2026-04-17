@@ -27,7 +27,7 @@ library(ggplot2)
 ```
 **INTRODUCTION**
 
-This report analyses a reduced World Values Survey dataset to investigate how participant attributes predict confidence in social organisations, with a specific focus on the Netherlands.
+Generative AI was used in this assignment. This report analyses a reduced World Values Survey dataset to investigate how participant attributes predict confidence in social organisations, with a specific focus on the Netherlands.
 The report therefore addresses three main tasks: descriptive analysis of the dataset, cross-sectional comparison of the Netherlands with all other countries as a pooled group, 
 and time-based analysis across survey waves.
 
@@ -110,7 +110,7 @@ knitr::include_graphics("outputs/figures/q1_missing_values.png")
 **Interpretation:** Figure 1 shows that missingness is concentrated in a relatively small number of variables rather than being evenly spread across the dataset. In particular, variables such as *CEU* and *PolScale* show relatively high missing proportions, while variables such as *Country*, *Wave*, *Year*, 
                     and several demographic or child-quality variables contain little or no missingness. This suggests that the analytical difficulty of the dataset is driven more by selected attitudinal variables than by basic identifiers.
 
-**Graphic design resoning:** A horizontal missingness bar chart was chosen because it allows quick ranking of variables from highest to lowest missingness. This makes the data-quality structure of the dataset immediately visible and supports later methodological choices, particularly the use of complete-case regression.
+**Graphic design reasoning:** A horizontal missingness bar chart was chosen because it allows quick ranking of variables from highest to lowest missingness. This makes the data-quality structure of the dataset immediately visible and supports later methodological choices, particularly the use of complete-case regression.
 
 *Distribution of confidence responses*
 
@@ -227,7 +227,7 @@ The time-based analysis adds a further layer of complexity. Both institutional c
 
 Taken together, the results support the assignment’s central claim that predictors of institutional confidence differ across countries and evolve over time. A key limitation is that missing data and reduced wave-specific sample sizes constrain some comparisons, especially in Question 3(b). Even so, the overall evidence is strong enough to support meaningful conclusions about institutional trust in the Netherlands relative to other countries.
 
-**APPENDIX: KEY CODE EXTRACTS**
+**APPENDIX A: KEY CODE EXTRACTS**
 
 *A1: Cross-sectional modelling function*
 ```{r appendix-a1, echo=TRUE}
@@ -291,3 +291,16 @@ fit_models_by_wave <- function(data, confidence_vars, predictor_vars, min_rows =
   out
 }
 ```
+
+**APPENDIX B: GENERATIVE AI USE**
+
+In this report, ChatGPT was used for debugging R code for any errors and warnings, and improving graph design and report structure.
+
+Examples of the prompts included:
+
+- "How can I visualize changes in confidence over time by wave?"
+
+- "How should I structure this assignment report in R Markdown?"
+
+The generated outputs were used only as guidance for coding and presentation. All generated suggestions were reviewed, and tested before use.
+The final dataset creation, cleaning, modelling, figures, and conclusions were done by me.
